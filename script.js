@@ -91,6 +91,30 @@ document.addEventListener("keydown", (e) => {
   if (key === "ArrowDown" && direction !== "UP") direction = "DOWN";
 });
 
+// Mobile Touch Screen
+let touchStartX = 0;
+let touchStartY = 0;
+
+canvas.addEventListener("touchstart", (e) => {
+  const touch = e.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+});
+
+canvas.addEventListener("touchend", (e) => {
+  const touch = e.changedTouches[0];
+  const deltaX = touch.clientX - touchStartX;
+  const deltaY = touch.clientY - touchStartY;
+
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    if (deltaX > 30 && direction !== "LEFT") direction = "RIGHT";
+    else if (deltaX < -30 && direction !== "RIGHT") direction = "LEFT";
+  } else {
+    if (deltaY > 30 && direction !== "UP") direction = "DOWN";
+    else if (deltaY < -30 && direction !== "DOWN") direction = "UP";
+  }
+});
+
 // Reset logic
 function resetGame() {
   clearInterval(game);
